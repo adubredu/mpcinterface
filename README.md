@@ -15,8 +15,8 @@ this package re-formulates the MPC problem into a canonical Quadratic Program of
 $$
 \begin{align}
 min_z \frac{1}{2} z^\top \bar{P} z + \bar{q}^\top z \\ 
-s.t.~~ l \leq \bar{A}z \leq u \\
+s.t.~~ \bar{l} \leq \bar{A}z \leq \bar{u} \\
 \end{align}
 $$
 
-More specifically, this package returns the $\bar{P}, \bar{q}, l, u$ and $\bar{A}$ matrices for your QP MPC problem. These matrices can then be directly passed to off-the-shelf QP solvers like [OSQP](https://github.com/google/osqp-cpp).
+More specifically, this package returns the $\bar{P}, \bar{q}, \bar{l}, \bar{u}$ and $\bar{A}$ matrices for your QP MPC problem. These matrices can then be directly passed to off-the-shelf QP solvers like [OSQP](https://github.com/google/osqp-cpp).
