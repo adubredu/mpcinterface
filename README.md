@@ -22,3 +22,11 @@ $$
 where $$z = \[x_1, u_1, x_2, u_2, \dots, u_{H-1}, x_H\] ^\top $$
 
 More specifically, this package returns the $\bar{P}, \bar{q}, \bar{l}, \bar{u}$ and $\bar{A}$ matrices for your QP MPC problem. These matrices can then be directly passed to off-the-shelf QP solvers like [OSQP](https://github.com/google/osqp-cpp).
+
+## Installation
+This package is compiled using the [Bazel build system](https://bazel.build/about). Install Bazel by following the installation instructions [here](https://bazel.build/install) 
+
+The only other dependency of this package is [Eigen](https://eigen.tuxfamily.org/index.php?title=Main_Page). This package however automatically downloads its own copy of Eigen during compilation so it doesn't matter whether or not you already have Eigen installed on your local system.
+
+## Usage
+See the [test](test) files for usage examples.
