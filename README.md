@@ -15,7 +15,7 @@ this package provides convenience functions that re-formulate the MPC problem in
 $$
 \begin{align}
 min_z \frac{1}{2} z^\top \bar{P} z + \bar{q}^\top z \\ 
-s.t.~~ l \leq \bar{A} \leq u \\
+s.t.~~ l \leq \bar{A}z \leq u \\
 \end{align}
 $$
 
