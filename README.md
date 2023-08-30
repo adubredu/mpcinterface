@@ -10,7 +10,7 @@ u_{min} \leq u_k \leq u_{max} \\
 \end{align} 
 $$
 
-this package provides convenience functions that re-formulate the MPC problem into a canonical Quadratic Program of the form 
+this package re-formulates the MPC problem into a canonical Quadratic Program of the form 
 
 $$
 \begin{align}
