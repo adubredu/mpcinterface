@@ -1,4 +1,8 @@
 # mpcinterface
 Given an MPC problem of the form
 
-$$min_{x,u} x'Qx + $$
+$$
+\begin{align}
+min_{x,u} ~\sum_{k=1}^{H-1}\frac{1}{2}x_k^\top'Qx_k +
+\end{align} 
+$$
