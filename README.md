@@ -9,3 +9,14 @@ x_{min} \leq x_k \leq x_{max} \\
 u_{min} \leq u_k \leq u_{max} \\
 \end{align} 
 $$
+
+this package provides convenience functions that re-formulate the MPC problem into a canonical Quadratic Program of the form 
+
+$$
+\begin{align}
+min_z \frac{1}{2} z^\top \bar{P} z + \bar{q}^\top z \\ 
+s.t. l \leq \bar{A} \leq u \\
+\end{align}
+$$
+
+More specifically, this package returns the $$\bar{P}, \bar{q}, l, u$$ and $$\bar{A}$$ matrices for your QP MPC problem. These matrices can then be directly passed to off-the-shelf QP solvers like [OSQP](https://github.com/google/osqp-cpp).
