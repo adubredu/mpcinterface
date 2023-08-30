@@ -18,6 +18,7 @@ min_z \frac{1}{2} z^\top \bar{P} z + \bar{q}^\top z \\
 s.t.~~ \bar{l} \leq \bar{A}z \leq \bar{u} \\
 \end{align}
 $$
+
 where $$z = \[x_1, u_1, x_2, u_2, \dots, x_H, u_H`]^\top$$
 
 More specifically, this package returns the $\bar{P}, \bar{q}, \bar{l}, \bar{u}$ and $\bar{A}$ matrices for your QP MPC problem. These matrices can then be directly passed to off-the-shelf QP solvers like [OSQP](https://github.com/google/osqp-cpp).
