@@ -54,10 +54,10 @@ TEST(MPCInterfaceTest, TestCanonicalMatrixDimensions) {
     EXPECT_EQ(canonical_form.P_bar.rows(), H * (n + m) + n);
     EXPECT_EQ(canonical_form.P_bar.cols(), H * (n + m) + n);
     EXPECT_EQ(canonical_form.q_bar.size(), H * (n + m) + n); 
-    EXPECT_EQ(canonical_form.A_bar.rows(), 2 * H * (n + m) + H * n);
+    EXPECT_EQ(canonical_form.A_bar.rows(), H * n + H * (n + m));
     EXPECT_EQ(canonical_form.A_bar.cols(), H * (n + m));
-    EXPECT_EQ(canonical_form.l_bar.size(), 2 * H * (n + m)); 
-    EXPECT_EQ(canonical_form.u_bar.size(), 2 * H * (n + m));
+    EXPECT_EQ(canonical_form.l_bar.size(), H * n + H * (n + m)); 
+    EXPECT_EQ(canonical_form.u_bar.size(), H * n + H * (n + m));
 }
 
 TEST(MPCInterfaceTest, TestCanonicalForm) {
@@ -104,23 +104,16 @@ TEST(MPCInterfaceTest, TestCanonicalForm) {
     expected_q_bar << -1, -2, -2, -3, -1, 0, -6, -8;
     EXPECT_EQ(canonical_form.q_bar, 2*expected_q_bar);
 
-    Eigen::MatrixXd expected_A_bar(16, 6);
+    Eigen::MatrixXd expected_A_bar(10, 6);
     expected_A_bar << 1, 1, 0, 0, 0, 0,
                       0, 1, 1, 0, 0, 0,
                       0, 0, 0, 1, 1, 0,
                       0, 0, 0, 0, 1, 1,
                       1, 0, 0, 0, 0, 0,
-                      -1, 0, 0, 0, 0, 0,
                       0, 1, 0, 0, 0, 0,
-                      0, -1, 0, 0, 0, 0,
                       0, 0, 1, 0, 0, 0,
-                      0, 0, -1, 0, 0, 0,
                       0, 0, 0, 1, 0, 0,
-                      0, 0, 0, -1, 0, 0,
                       0, 0, 0, 0, 1, 0,
-                      0, 0, 0, 0, -1, 0,
-                      0, 0, 0, 0, 0, 1,
-                      0, 0, 0, 0, 0, -1;
+                      0, 0, 0, 0, 0, 1;
     EXPECT_EQ(canonical_form.A_bar, expected_A_bar);
-
 }
