@@ -15,13 +15,13 @@ public:
 
     // Inputs:
     // State cost matrix
-    Eigen::VectorXd Q;
+    Eigen::MatrixXd Q;
 
     // Input cost matrix
-    Eigen::VectorXd R;
+    Eigen::MatrixXd R;
 
     // Terminal state cost matrix
-    Eigen::VectorXd P;
+    Eigen::MatrixXd P;
 
     // State lower bound
     Eigen::VectorXd x_min;
@@ -42,10 +42,10 @@ public:
     Eigen::MatrixXd B;
     
     // State reference
-    Eigen::VectorXd x_ref;
+    Eigen::MatrixXd x_ref;
 
     // Input reference
-    Eigen::VectorXd u_ref;
+    Eigen::MatrixXd u_ref;
 
     // Outputs:
     struct CanonicalForm {

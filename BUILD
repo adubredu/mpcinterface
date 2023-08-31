@@ -1,4 +1,4 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
 cc_library(
     name = "mpcinterface",
@@ -8,6 +8,15 @@ cc_library(
     visibility = ["//visibility:public"],
     deps = [
         "@eigen//:eigen",
+    ],
+)
+
+cc_test(
+    name = "mpcinterface_test",
+    srcs = ["test/mpcinterface_test.cpp"],
+    deps = [
+        ":mpcinterface",
+        "@com_google_googletest//:gtest_main",
     ],
 )
 

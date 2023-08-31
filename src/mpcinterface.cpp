@@ -11,13 +11,13 @@ MPCInterface::MPCInterface (int H, int n, int m) {
     this->m = m;
 
     // Initialize state cost matrix
-    this->Q = Eigen::VectorXd::Zero(n, n);
+    this->Q = Eigen::MatrixXd::Zero(n, n);
 
     // Initialize input cost matrix
-    this->R = Eigen::VectorXd::Zero(m, m);
+    this->R = Eigen::MatrixXd::Zero(m, m);
 
     // Initialize terminal state cost matrix
-    this->P = Eigen::VectorXd::Zero(n, n);
+    this->P = Eigen::MatrixXd::Zero(n, n);
 
     // Initialize state lower bound
     this->x_min = Eigen::VectorXd::Zero(n);
@@ -38,10 +38,10 @@ MPCInterface::MPCInterface (int H, int n, int m) {
     this->B = Eigen::MatrixXd::Zero(n, m);
 
     // Initialize state reference
-    this->x_ref = Eigen::VectorXd::Zero(n);
+    this->x_ref = Eigen::MatrixXd::Zero(n, H);
 
     // Initialize input reference
-    this->u_ref = Eigen::VectorXd::Zero(m);
+    this->u_ref = Eigen::MatrixXd::Zero(m, H);
 }
 
 MPCInterface::~MPCInterface() {}
@@ -49,7 +49,7 @@ MPCInterface::~MPCInterface() {}
 MPCInterface::CanonicalForm MPCInterface::getCanonicalForm() {
 
     // Create P_bar
-    Eigen::MatrixXd P_bar((H * n + H * m), (H * n + H * m));
+    Eigen::MatrixXd P_bar(H * (n + m), H * (n + m));
     P_bar.setZero();  // Initialize to zeros
     for (int i = 0; i < H; i++) {
         P_bar.block(i * n, i * n, n, n) = Q;
