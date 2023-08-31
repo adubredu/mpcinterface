@@ -38,10 +38,10 @@ MPCInterface::MPCInterface (int H, int n, int m) {
     this->B = Eigen::MatrixXd::Zero(n, m);
 
     // Initialize state reference
-    this->x_ref = Eigen::MatrixXd::Zero(n, H);
+    this->x_ref = Eigen::MatrixXd::Zero(n, H+1);
 
     // Initialize input reference
-    this->u_ref = Eigen::MatrixXd::Zero(m, H);
+    this->u_ref = Eigen::MatrixXd::Zero(m, H+1);
 }
 
 MPCInterface::~MPCInterface() {}
@@ -49,21 +49,23 @@ MPCInterface::~MPCInterface() {}
 MPCInterface::CanonicalForm MPCInterface::getCanonicalForm() {
 
     // Create P_bar
-    Eigen::MatrixXd P_bar(H * (n + m), H * (n + m));
+    Eigen::MatrixXd P_bar(H * (n + m) + n, H * (n + m) + n);
     P_bar.setZero();  // Initialize to zeros
     for (int i = 0; i < H; i++) {
         P_bar.block(i * n, i * n, n, n) = Q;
         P_bar.block(H * n + i * m, H * n + i * m, m, m) = R;
     }
-    P_bar.block(H * n, H * n, n, n) = P;
+    P_bar.block(H * (n + m), H * (n + m), n, n) = P;
 
     // Create q_bar
-    Eigen::VectorXd q_bar((H * (n + m)));
+    Eigen::VectorXd q_bar(H * (n + m) + n);
     q_bar.setZero();  // Initialize to zeros
     for (int i = 0; i < H; i++) {
         q_bar.segment(i * n, n) = -2 * Q * x_ref.col(i);
         q_bar.segment(H * n + i * m, m) = -2 * R * u_ref.col(i);
     }
+    q_bar.tail(n) = -2 * P * x_ref.col(H);  // Add terminal cost
+
 
     // Construct A_bar with additional rows for constraints
     Eigen::MatrixXd A_bar(2 * H * (n + m) + H * n, H * (n + m));
@@ -71,8 +73,8 @@ MPCInterface::CanonicalForm MPCInterface::getCanonicalForm() {
 
     // Dynamics
     for (int i = 0; i < H; ++i) {
-        A_bar.block(i * n, i * n, n, n) = A;
-        A_bar.block(i * n, H * n + i * m, n, m) = B;
+        A_bar.block(i * n, i * (n + m), n, n) = A;
+        A_bar.block(i * n, i * (n + m) + n, n, m) = B;
     }
 
     // State constraints
@@ -83,8 +85,8 @@ MPCInterface::CanonicalForm MPCInterface::getCanonicalForm() {
 
     // Input constraints
     for (int i = 0; i < H; ++i) {
-        A_bar.block(2 * H * n + 2 * i * m, H * n + i * m, m, m) = Eigen::MatrixXd::Identity(m, m);        // u_min <= u
-        A_bar.block(2 * H * n + (2 * i + 1) * m, H * n + i * m, m, m) = -Eigen::MatrixXd::Identity(m, m); // u <= u_max
+        A_bar.block(H * n + 2 * H * n + 2 * i * m, H * n + i * m, m, m) = Eigen::MatrixXd::Identity(m, m);        // u_min <= u
+        A_bar.block(H * n + 2 * H * n + (2 * i + 1) * m, H * n + i * m, m, m) = -Eigen::MatrixXd::Identity(m, m); // u <= u_max
     }
 
     // Construct l_bar and u_bar
